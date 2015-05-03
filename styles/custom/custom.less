@@ -28,13 +28,58 @@
 
 .single-restaurant {
   border-bottom: 1px solid #efefef;
-  padding: 1% 0;
-  margin: 1% 0;
+  padding: 3% 4%;
+  border-left: 4px solid transparent;
+  &:hover {
+    border-left: 4px solid #3CBDCD;
+  }
+}
+
+.restaurant-index {
+  color: #ccc;
+  width: 10px;
+  float: left;
+  position: absolute;
+  left: 10px;
+}
+
+.titles {
+  text-align: left;
+  &:first-child {
+    margin-left: 5%;
+  }
+}
+
+.titles-marker {
+  text-align: left;
+  &:after {
+      display: inline-block;
+      margin: 0 0 2px 10px;
+      content: " ";
+      border-radius: 5px;
+      background-color: #ccc;
+      width: 5px;
+      height: 5px;
+  }
+}
+
+.icon-star {
+  background: url(star_rating.png) center right no-repeat;
+  background-size: cover;
+  width: 20px;
+  height: 15px;
+  vertical-align: sub;
+  margin-top: 10px;
+  display: inline-block;
 }
 
 .map-box {
-  margin-top: 2.10% !important;
+  margin-top: 2.8% !important;
   .no-padding;
+}
+
+.media {
+    margin-top: 0 !important;
 }
 
 .labels {

@@ -5,21 +5,19 @@
   </select>
 </div>
 
-<div class="col-xs-12 no-padding">
+<div class="col-xs-12 ">
   <div ng-repeat="response in ApiResponse | orderBy:defaultSelected.value" class="media single-restaurant">
         <div class="media-body">
-          <span class="restaurant-index">{{response.index}}</span>
-          <h4 class="media-heading" id="top-aligned-media">{{response.name }}</h4>
+          <h4 class="media-heading" id="top-aligned-media">{{response.name}}</h4>
           <p>{{response.vicinity}}</p>
           <div class="row">
-            <span class="titles titles-marker">{{response.types[0] }}</span>
-            <span class="titles titles-marker">{{response.price }}</span>
-            <span class="titles ">{{response.distance }} miles</span>
+            <span class="col-xs-4">Type:{{response.types[0]}}</span>
+            <span class="col-xs-4">$ :{{response.price}}</span>
+            <span class="col-xs-4">Dist: {{response.distance}}</span>
           </div>
           <div class="row">
-            <span class="titles titles-marker">{{response.rate }}
-              <i ng-repeat="response in ApiResponse" class="icon-star"></i></span>
-            <span class="titles">{{response.review}} Reviews</span>
+            <span class="col-xs-4">Rate: {{response.rate}}</span>
+            <span class="col-xs-4"></span>
           </div>
         </div>
         <div class="media-right">

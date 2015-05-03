@@ -23,7 +23,7 @@ angular.module('nearbyrestaurants')
             var mapcanvas = document.createElement('div');
             mapcanvas.id = 'mapcanvas';
             mapcanvas.style.height = '630px';
-            //mapcanvas.style.width = '900px';
+            mapcanvas.style.width = '885px';
 
             $('#js_map-box').append(mapcanvas);
 
@@ -31,17 +31,24 @@ angular.module('nearbyrestaurants')
             var myOptions = {
               zoom: 15,
               center: latlng,
-              mapTypeControl: false
+              mapTypeControl: false,
+              navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+              mapTypeId: google.maps.MapTypeId.ROADMAP
             };
 
             var map = new google.maps.Map(document.getElementById("mapcanvas"), myOptions);
 
-            var marker = new google.maps.Marker({
+            var marker = new MarkerWithLabel({
                 position: latlng,
-                map: map
+                map: map,
+                draggable: true,
+                raiseOnDrag: true,
+                map: map,
+                labelContent: "5",
+                labelAnchor: new google.maps.Point(0, 0),
+                labelClass: "labels",
+                labelInBackground: false
             });
-
-            marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
 
 
             var iw = new google.maps.InfoWindow({
@@ -57,7 +64,7 @@ angular.module('nearbyrestaurants')
 
             //var photoRef = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="++"&key="+ApiKey;
 
-              $http.jsonp(ApiUrl).
+              $http.get(ApiUrl).
                   success(function(data, status, headers, config) {
                     console.log("sucess!");
                     console.log(data.results);
@@ -165,10 +172,8 @@ angular.module('nearbyrestaurants')
           angular.forEach(apidata, function(data, $index) {
             data.photos[0].photo_reference = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="+data.photos[0].photo_reference+"&key=AIzaSyAneGsXcNH6G1mSV4bjB2m1LR--rxAtnl8";
             data.distance = data.photos[0].height/10;
-            data.price = "$$$$";
-            data.rate = 4.5;
-            data.review = 943;
-            data.index = $index +1;
+            data.price = data.photos[0].width;
+            data.rate = (data.distance/2.5);
               tmp.push(data);
           });
 
