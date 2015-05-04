@@ -18,6 +18,16 @@ angular.module('nearbyrestaurants')
             error('not supported');
           }
 
+
+          function error(msg) {
+            console.log("Geolacation Failed");
+          }
+
+
+          var map;
+          var infowindow;
+          var service;
+
           function success(position) {
 
             var mapcanvas = document.createElement('div');
@@ -34,7 +44,7 @@ angular.module('nearbyrestaurants')
               mapTypeControl: false
             };
 
-            var map = new google.maps.Map(document.getElementById("mapcanvas"), myOptions);
+            map = new google.maps.Map(document.getElementById("mapcanvas"), myOptions);
 
             var marker = new google.maps.Marker({
                 position: latlng,
@@ -50,28 +60,58 @@ angular.module('nearbyrestaurants')
 
             google.maps.event.addListener(marker, "click", function (e) { iw.open(map, this); });
 
+            var request = {
+               location: latlng,
+               radius: 500,
+               types: ['food']
+             };
 
-            var ApiKey = "AIzaSyAneGsXcNH6G1mSV4bjB2m1LR--rxAtnl8";
+             infowindow = new google.maps.InfoWindow();
+             service = new google.maps.places.PlacesService(map);
+             service.nearbySearch(request, callback);
+         }
+
+          function callback(results, status) {
+            if (status == google.maps.places.PlacesServiceStatus.OK) {
+              for (var i = 0; i < results.length; i++) {
+                createMarker(results[i]);
+              }
+            }
+          }
+
+          function createMarker(place) {
+            var placeLoc = place.geometry.location;
+
+            var marker = new google.maps.Marker({
+              map: map,
+              position: place.geometry.location
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+              infowindow.setContent(place.name);
+              infowindow.open(map, this);
+            });
+
+            /*  console.log(place.geometry.location);
+
+             var ApiKey = "AIzaSyAneGsXcNH6G1mSV4bjB2m1LR--rxAtnl8";
             var GoogleApiUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
-            var ApiUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&types=food&name=cruise&key="+ApiKey;
+            var ApiUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&types=food&name=cruise&alt=json-in-script&callback=JSON_CALLBACK&key="+ApiKey;
 
             //var photoRef = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="++"&key="+ApiKey;
 
-              $http.jsonp(ApiUrl).
-                  success(function(data, status, headers, config) {
+             $http.jsonp(ApiUrl)
+                  .success(function(data) {
                     console.log("sucess!");
-                    console.log(data.results);
-                  }).
-                  error(function(data, status, headers, config) {
+                    console.log(data);
+                  })
+                  .error(function(data) {
                     console.log("error !");
-                  });
-
+                  });*/
 
           }
 
-          function error(msg) {
-            console.log("Geolacation Failed");
-          }
+
 
           var apidata= [
                   {
